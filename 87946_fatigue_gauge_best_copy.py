@@ -10,21 +10,16 @@ def solution(k, dungeons):
     param dungeons: 던전 피로도 정보, [[필요 피로도, 소모 피로도], ...],  길이 1 ~ 8
         필요 피로도 >= 소모 피로도, 각 1 ~ 1000
     """
+    if not len(dungeons):
+        return 0
 
-    def run_dungeon(to_dos, curr_count, curr_k):
-        max_curr_count = curr_count # for 문 바깥의 변수 하나
-        for i, (need_k, use_k) in enumerate(to_dos):
-            curr_curr_count = curr_count # 재귀 바깥의 변수 하나 
-            curr_curr_k = curr_k
+    results = [0]
+    for i, (need_k, use_k) in enumerate(dungeons):
+        if need_k > k:
+            continue
+        results.append(solution(k- use_k, dungeons[i+1:]+dungeons[:i]) + 1)
 
-            if curr_curr_k < need_k:
-                continue
-        
-            max_curr_count = max(run_dungeon(to_dos[i+1:] + to_dos[:i], curr_curr_count+1, curr_curr_k-use_k), max_curr_count)
-
-        return max_curr_count
-
-    return run_dungeon(dungeons, 0, k)    
+    return max(results)  
 
 
 if __name__ == "__main__":
