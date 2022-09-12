@@ -10,7 +10,19 @@ def get_new_visited(N):
     return [[0 for _ in range(N)] for __ in range(N)]
 
 
-def get_neighbors(target, visited, i, j, check_value, N):
+def get_neighbors(target, visited, i, j, target_value, N):
+    """
+    get curr min max size 에서 호출하는 함수
+    target 에서 주어진 위치 i, j 에서 위, 아래, 오른쪽, 왼쪽의 위치에서
+    target_value 와 같은 값을 가진 위치들을 반환하는 함수
+
+    param i, j: 주어진 현재 위치
+    param visited: 이제까지 찾은 위치를 1 로 표시한 target 과 같은 크기의 2차원 리스트
+    param target: 찾으려는 대상, 2차원 리스트
+    param target_value: 찾으려는 값
+    param N: target 의 길이
+    return neighbors: i, j 와 근접하며 target_value 와 같은 값을 가진 위치들
+    """
     neighbors = []
     directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
     is_in_target = lambda x: (x > -1 and x < N)
@@ -23,7 +35,7 @@ def get_neighbors(target, visited, i, j, check_value, N):
             continue
         if visited[mi][mj]:
             continue
-        if target[mi][mj] != check_value:
+        if target[mi][mj] != target_value:
             continue
         visited[mi][mj] = 1
         neighbors.append([mi, mj])
