@@ -12,12 +12,10 @@ def solution(people, limit):
     """
     people = deque(sorted(people))
     half_limit = limit / 2
-    boats = deque()
+    boats = deque([])
     count = 0
 
-    # print(people)
     while people:
-        # print(boats, count)
         target = people.pop()
         if target > half_limit:
             if limit - 40 < target:
@@ -29,32 +27,27 @@ def solution(people, limit):
             break
 
     while people:
-        # print(people, count, boats)
-        target = people.popleft()
+        target = people.pop()
 
         if not len(boats):
             boats.append(target)
             continue
 
-        find_place = False
-        while boats:
-            count += 1
-            boat = boats.pop()
-            if target + boat <= limit:
-                find_place = True
-                break
-
-        if not find_place:
+        if boats[-1] + target > limit:
             boats.append(target)
+            continue
+
+        boats.pop()
+        count += 1
 
     return len(boats) + count
 
 
 if __name__ == "__main__":
-    # assert (solution([70, 50, 80, 50], 100)) == 3
-    # assert (solution([70, 80, 50], 100)) == 3
-    # assert (solution([30, 30, 30], 100)) == 2
-    # assert (solution([30, 30, 30], 40)) == 3
-    # assert (solution([30], 30)) == 1
+    assert (solution([70, 50, 80, 50], 100)) == 3
+    assert (solution([70, 80, 50], 100)) == 3
+    assert (solution([30, 30, 30], 100)) == 2
+    assert (solution([30, 30, 30], 40)) == 3
+    assert (solution([30], 30)) == 1
     assert (solution([40, 100, 100, 160], 200)) == 2
     assert (solution([40, 190], 200)) == 2
